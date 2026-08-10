@@ -26,6 +26,12 @@ const job: Job = {
   updated_at: "2026-08-10T08:00:00Z",
 };
 
+const unfilteredJob: Job = {
+  ...job,
+  id: 2,
+  title: "Product Designer",
+};
+
 const jobsResponse = (jobs: Job[]) =>
   new Response(JSON.stringify({ data: jobs }), {
     status: 200,
@@ -37,15 +43,20 @@ const getRequestUrl = (input: RequestInfo | URL) => {
   return input instanceof URL ? input.toString() : input.url;
 };
 
-const hasRequest = (
+const countRequests = (
   calls: Array<Parameters<typeof fetch>>,
   expectedUrl: string,
 ) =>
-  calls.some(
+  calls.filter(
     ([input, init]) =>
       getRequestUrl(input) === expectedUrl &&
       init?.signal instanceof AbortSignal,
-  );
+  ).length;
+
+const hasRequest = (
+  calls: Array<Parameters<typeof fetch>>,
+  expectedUrl: string,
+) => countRequests(calls, expectedUrl) > 0;
 
 const LocationProbe = () => {
   const location = useLocation();
@@ -56,6 +67,9 @@ const LocationProbe = () => {
       <output data-testid="location-search">{location.search}</output>
       <button type="button" onClick={() => void navigate(-1)}>
         Back in history
+      </button>
+      <button type="button" onClick={() => void navigate(1)}>
+        Forward in history
       </button>
     </div>
   );
@@ -177,33 +191,43 @@ describe("JobList search integration", () => {
     );
   });
 
-  it("clears filters and browser history restores the previous search", async () => {
+  it("clear, back, and forward navigation refetch and restore results", async () => {
     const user = userEvent.setup();
-    const fetchMock = vi
-      .fn<typeof fetch>()
-      .mockResolvedValue(jobsResponse([job]));
+    const fetchMock = vi.fn<typeof fetch>((input) => {
+      const url = getRequestUrl(input);
+      return Promise.resolve(
+        jobsResponse(url.includes("title=Frontend") ? [job] : [unfilteredJob]),
+      );
+    });
     vi.stubGlobal("fetch", fetchMock);
     renderJobList("/?title=Frontend");
 
     await screen.findByRole("link", { name: "Frontend Engineer" });
     await user.click(screen.getByRole("button", { name: "Clear filters" }));
 
-    await waitFor(() =>
-      expect(screen.getByTestId("location-search")).toBeEmptyDOMElement(),
-    );
-    await waitFor(() =>
-      expect(hasRequest(fetchMock.mock.calls, "/api/jobs")).toBe(true),
-    );
+    await screen.findByRole("link", { name: "Product Designer" });
+    expect(screen.getByTestId("location-search")).toBeEmptyDOMElement();
+    expect(countRequests(fetchMock.mock.calls, "/api/jobs")).toBe(1);
 
     await user.click(screen.getByRole("button", { name: "Back in history" }));
 
-    await waitFor(() =>
-      expect(screen.getByTestId("location-search")).toHaveTextContent(
-        "?title=Frontend",
-      ),
+    await screen.findByRole("link", { name: "Frontend Engineer" });
+    expect(screen.getByTestId("location-search")).toHaveTextContent(
+      "?title=Frontend",
     );
     expect(screen.getByRole("textbox", { name: "Job title" })).toHaveValue(
       "Frontend",
     );
+    expect(
+      countRequests(fetchMock.mock.calls, "/api/jobs?title=Frontend"),
+    ).toBe(2);
+
+    await user.click(
+      screen.getByRole("button", { name: "Forward in history" }),
+    );
+
+    await screen.findByRole("link", { name: "Product Designer" });
+    expect(screen.getByTestId("location-search")).toBeEmptyDOMElement();
+    expect(countRequests(fetchMock.mock.calls, "/api/jobs")).toBe(2);
   });
 });
