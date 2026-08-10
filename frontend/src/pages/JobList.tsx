@@ -56,6 +56,9 @@ export const JobList = () => {
   const hasFilters = Boolean(
     filters.title || filters.location || filters.work_mode,
   );
+  const resultsCountLabel = `${jobs.length} ${jobs.length === 1 ? "job" : "jobs"} ${
+    hasFilters ? "found for your search" : "available"
+  }`;
 
   useEffect(() => {
     const csrfToken = Cookies.get("technical-test-csrf-token");
@@ -156,6 +159,12 @@ export const JobList = () => {
             Create a new job
           </Button>
         </div>
+      )}
+
+      {status === "success" && (
+        <Text className="mb-md" variant="body-sm">
+          {resultsCountLabel}
+        </Text>
       )}
 
       <JobResults

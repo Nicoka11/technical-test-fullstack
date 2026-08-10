@@ -118,6 +118,9 @@ describe("JobList search integration", () => {
     expect(
       await screen.findByRole("link", { name: "Frontend Engineer" }),
     ).toHaveAttribute("href", "/jobs/1");
+    expect(
+      await screen.findByText("1 job found for your search"),
+    ).toBeInTheDocument();
 
     expect(
       hasRequest(
@@ -145,15 +148,13 @@ describe("JobList search integration", () => {
 
     renderJobList("/?title=Frontend");
 
-    expect(
-      await screen.findByText("user@example.com"),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("user@example.com")).toBeInTheDocument();
     expect(
       await screen.findByRole("link", { name: "Frontend Engineer" }),
     ).toBeInTheDocument();
-    expect(
-      hasRequest(fetchMock.mock.calls, "/api/jobs?title=Frontend"),
-    ).toBe(true);
+    expect(hasRequest(fetchMock.mock.calls, "/api/jobs?title=Frontend")).toBe(
+      true,
+    );
   });
 
   it("writes submitted filters to the URL and fetches them", async () => {
@@ -168,10 +169,7 @@ describe("JobList search integration", () => {
       screen.getByRole("textbox", { name: "Job title" }),
       "Frontend",
     );
-    await user.type(
-      screen.getByRole("textbox", { name: "Location" }),
-      "Paris",
-    );
+    await user.type(screen.getByRole("textbox", { name: "Location" }), "Paris");
     await user.click(screen.getByRole("button", { name: "open menu" }));
     await user.click(screen.getByRole("option", { name: "Remote" }));
     await user.click(screen.getByRole("button", { name: "Search jobs" }));
