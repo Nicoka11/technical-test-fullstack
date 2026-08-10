@@ -20,6 +20,10 @@ Les listes d’options associant une valeur métier à un label d’interface on
 
 Une suite Playwright est en cours d’ajout pour vérifier le parcours de recherche depuis le navigateur. La configuration, un premier scénario de recherche et un workflow GitHub Actions sont présents, mais ce chantier est encore considéré comme en cours tant que les scénarios ne sont pas stabilisés et validés dans l’environnement d’intégration continue.
 
+### Linting
+
+Il manque l'exclusion de certains fichiers dans la configuration de linting ESlint. Il aurait fallu les exclure pour éviter les warnings/errors inutiles. J'ai été pris par le temps à la fin en même que j'ajoutais un test end-to-end avec Playwright.
+
 ## Améliorations envisagées
 
 ### Architecture et maintenabilité
