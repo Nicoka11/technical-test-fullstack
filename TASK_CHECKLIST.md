@@ -88,21 +88,21 @@
   - [x] Explain where and how an LLM was used.
   - [x] State what was personally reviewed, changed, and verified.
 
-- [ ] **Maintain a clear Git history**
-  - [ ] Create focused commits with descriptive messages.
-  - [ ] Suggested commit: `test: add backend job search coverage`.
-  - [ ] Suggested commit: `feat: implement backend job search filters`.
-  - [ ] Suggested commit: `test: add frontend search flow coverage`.
-  - [ ] Suggested commit: `feat: add job search interface`.
-  - [ ] Suggested commit: `docs: document search design and LLM usage`.
+- [x] **Maintain a clear Git history**
+  - [x] Create focused commits with descriptive messages.
+  - [x] Suggested commit: `test: add backend job search coverage`.
+  - [x] Suggested commit: `feat: implement backend job search filters`.
+  - [x] Suggested commit: `test: add frontend search flow coverage`.
+  - [x] Suggested commit: `feat: add job search interface`.
+  - [x] Suggested commit: `docs: document search design and LLM usage`.
 
-- [ ] **Run final verification**
+- [x] **Run final verification**
   - [x] Run backend tests with `mix test`.
   - [x] Run the frontend test suite.
   - [x] Run the frontend type-check command.
   - [x] Run the frontend lint command.
   - [x] Run the frontend production build.
-  - [ ] Manually verify the complete search flow in the browser.
+  - [x] Manually verify the complete search flow in the browser.
 
 ## P3 — Optional enhancements
 
@@ -110,11 +110,11 @@ Only start these after the required feature is complete and tested.
 
 - [ ] Add pagination compatible with search filters.
 - [ ] Add sorting by date, title, or relevance.
-- [ ] Debounce text search input.
+- [x] Debounce text search input.
 - [ ] Add employment type or category filters.
 - [ ] Add salary-range filtering.
 - [x] Persist filters in the URL.
-- [ ] Display search-result counts.
+- [x] Display search-result counts.
 - [ ] Improve the mobile filter presentation.
 
 ## Recommended order of effort
