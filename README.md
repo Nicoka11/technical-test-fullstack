@@ -70,6 +70,60 @@ You need to implement a **Job search function** !
 
 That new feature must allow all users to search for jobs. This should allow users to search using various parameters like job title, location, work mode, etc. You can extend this requirement to anything that makes sense for this project. You will have to implement the backend functionality (vibe coding only is ok!).
 
+## Job Search
+
+Job search is available to visitors and registered users on the job-listing page. Submitting the Welcome UI form stores the applied filters in the URL and requests filtered data from the Phoenix API. Browser history therefore restores both the controls and matching results; the frontend does not filter an already-fetched list.
+
+`GET /api/jobs` supports these optional query parameters:
+
+| Parameter | Behavior | Example |
+| --- | --- | --- |
+| `title` | Case-insensitive partial title match | `title=frontend` |
+| `location` | Case-insensitive partial office/location match | `location=paris` |
+| `work_mode` | Exact enum match: `onsite`, `remote`, or `hybrid` | `work_mode=remote` |
+
+Filters can be combined, for example:
+
+```text
+GET /api/jobs?title=frontend&location=paris&work_mode=hybrid
+```
+
+An unfiltered `GET /api/jobs` continues to return all jobs.
+
+### Frontend architecture
+
+- `src/api/jobs.ts` owns query serialization, response validation, and the jobs request.
+- `src/hooks/useJobs.ts` owns loading, success, error, retry, abort, and stale-response protection.
+- `JobSearchForm` uses React Hook Form with Welcome UI controls for draft input.
+- `JobList` treats React Router search parameters as the applied-filter source of truth.
+- `JobResults` provides loading, error, empty, and result states while preserving job detail and application routes.
+
+No dependency was added for this feature; React Hook Form, React Router, Welcome UI, Vitest, and Testing Library were already present.
+
+### Verification
+
+Run backend tests from the repository root:
+
+```bash
+mix test
+```
+
+Run frontend checks from `frontend/`:
+
+```bash
+yarn test --run
+yarn lint
+yarn build
+```
+
+### Trade-offs and possible follow-ups
+
+Search is submit-based rather than debounced, which avoids unnecessary requests and keeps the behavior explicit. Pagination, sorting, visible result counts, and additional filters were intentionally left out to prioritize the required flow. With more time, pagination would be the first addition and would preserve the current URL filters.
+
+### LLM usage
+
+An LLM was used to inspect the repository, draft the implementation plan, assist with the typed API layer, UI integration, tests, documentation, and read-only code-review passes. The work was delivered and reviewed incrementally; the search form was subsequently refactored to React Hook Form. Automated test, lint, and build commands are reported with the submission, while any manual browser checks are documented separately.
+
 ## Evaluation Criteria
 
 **Frontend**

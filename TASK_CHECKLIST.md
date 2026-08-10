@@ -2,91 +2,91 @@
 
 ## P0 — Required functionality
 
-- [ ] **Implement backend job search**
-  - [ ] Add search/filter parameters to the Phoenix jobs endpoint.
-  - [ ] Support job title filtering.
-  - [ ] Support location filtering.
-  - [ ] Support work mode filtering.
-  - [ ] Allow multiple filters to be combined correctly.
-  - [ ] Return all jobs when no filters are provided.
-  - [ ] Ensure search is available to registered and unregistered users.
-  - [ ] Perform filtering on the backend, not on an already-fetched frontend list.
+- [x] **Implement backend job search**
+  - [x] Add search/filter parameters to the Phoenix jobs endpoint.
+  - [x] Support job title filtering.
+  - [x] Support location filtering.
+  - [x] Support work mode filtering.
+  - [x] Allow multiple filters to be combined correctly.
+  - [x] Return all jobs when no filters are provided.
+  - [x] Ensure search is available to registered and unregistered users.
+  - [x] Perform filtering on the backend, not on an already-fetched frontend list.
 
-- [ ] **Build the frontend search experience**
-  - [ ] Add search controls to the job-listing page.
-  - [ ] Connect the controls to the backend search endpoint.
-  - [ ] Display filtered jobs.
-  - [ ] Add a loading state.
-  - [ ] Add an empty/no-results state.
-  - [ ] Add an error state.
-  - [ ] Add a reset/clear-filters action.
-  - [ ] Use `welcome-ui` components and existing project conventions.
+- [x] **Build the frontend search experience**
+  - [x] Add search controls to the job-listing page.
+  - [x] Connect the controls to the backend search endpoint.
+  - [x] Display filtered jobs.
+  - [x] Add a loading state.
+  - [x] Add an empty/no-results state.
+  - [x] Add an error state.
+  - [x] Add a reset/clear-filters action.
+  - [x] Use `welcome-ui` components and existing project conventions.
 
 - [ ] **Verify the complete user flow**
-  - [ ] Confirm visitors can search without signing in.
-  - [ ] Confirm registered users can search.
-  - [ ] Confirm users can still open and apply to jobs from search results.
+  - [x] Confirm visitors can search without signing in.
+  - [x] Confirm registered users can search.
+  - [x] Confirm users can still open and apply to jobs from search results.
   - [ ] Confirm job creation, editing, deletion, and candidate features still work.
 
 ## P1 — Highest-impact evaluation criteria
 
-- [ ] **Use strong React component architecture**
-  - [ ] Separate search controls, results, and data-fetching responsibilities.
-  - [ ] Keep components focused and reusable.
-  - [ ] Avoid duplicating job-list rendering logic.
+- [x] **Use strong React component architecture**
+  - [x] Separate search controls, results, and data-fetching responsibilities.
+  - [x] Keep components focused and reusable.
+  - [x] Avoid duplicating job-list rendering logic.
 
-- [ ] **Handle hooks and state correctly**
-  - [ ] Keep filter state predictable.
-  - [ ] Avoid unnecessary effects and duplicate requests.
-  - [ ] Prevent stale responses from replacing newer search results.
-  - [ ] Consider URL query parameters to make searches shareable and restorable.
+- [x] **Handle hooks and state correctly**
+  - [x] Keep filter state predictable.
+  - [x] Avoid unnecessary effects and duplicate requests.
+  - [x] Prevent stale responses from replacing newer search results.
+  - [x] Consider URL query parameters to make searches shareable and restorable.
 
-- [ ] **Maintain strict TypeScript safety**
-  - [ ] Define types for search parameters.
-  - [ ] Define types for API responses.
-  - [ ] Reuse existing job types where appropriate.
-  - [ ] Define component prop types.
-  - [ ] Avoid `any` and unsafe casts.
+- [x] **Maintain strict TypeScript safety**
+  - [x] Define types for search parameters.
+  - [x] Define types for API responses.
+  - [x] Reuse existing job types where appropriate.
+  - [x] Define component prop types.
+  - [x] Avoid `any` and unsafe casts.
 
-- [ ] **Deliver good UI/UX**
-  - [ ] Use appropriate `welcome-ui` controls.
-  - [ ] Provide understandable labels and actions.
-  - [ ] Ensure keyboard accessibility and visible focus states.
-  - [ ] Support responsive layouts.
-  - [ ] Clearly show active filters and no-result feedback.
+- [x] **Deliver good UI/UX**
+  - [x] Use appropriate `welcome-ui` controls.
+  - [x] Provide understandable labels and actions.
+  - [x] Ensure keyboard accessibility and visible focus states.
+  - [x] Support responsive layouts.
+  - [x] Clearly show active filters and no-result feedback.
 
-- [ ] **Add meaningful tests**
-  - [ ] Add backend tests for each supported filter.
-  - [ ] Add backend tests for combined filters.
-  - [ ] Add a backend test for requests without filters.
-  - [ ] Add a backend test for searches with no matches.
-  - [ ] Test the chosen case-sensitivity and partial-matching behavior.
-  - [ ] Add frontend tests for entering and selecting filters.
-  - [ ] Verify the frontend sends the correct backend parameters.
-  - [ ] Test rendering search results.
-  - [ ] Test loading, empty, and error states.
-  - [ ] Test clearing filters.
+- [x] **Add meaningful tests**
+  - [x] Add backend tests for each supported filter.
+  - [x] Add backend tests for combined filters.
+  - [x] Add a backend test for requests without filters.
+  - [x] Add a backend test for searches with no matches.
+  - [x] Test the chosen case-sensitivity and partial-matching behavior.
+  - [x] Add frontend tests for entering and selecting filters.
+  - [x] Verify the frontend sends the correct backend parameters.
+  - [x] Test rendering search results.
+  - [x] Test loading, empty, and error states.
+  - [x] Test clearing filters.
 
 ## P2 — Submission quality
 
-- [ ] **Keep code organized and reusable**
-  - [ ] Follow existing repository structure and naming conventions.
-  - [ ] Avoid unrelated refactors.
-  - [ ] Justify any added dependency.
+- [x] **Keep code organized and reusable**
+  - [x] Follow existing repository structure and naming conventions.
+  - [x] Avoid unrelated refactors.
+  - [x] Justify any added dependency.
 
-- [ ] **Document important decisions in `README.md`**
-  - [ ] Explain how job search works.
-  - [ ] List supported filters.
-  - [ ] Document the backend endpoint and query parameters.
-  - [ ] Explain how to run relevant tests.
-  - [ ] Record key architecture decisions.
-  - [ ] Describe trade-offs and known limitations.
-  - [ ] Explain what would be improved with more time.
-  - [ ] Document and justify any added dependencies.
+- [x] **Document important decisions in `README.md`**
+  - [x] Explain how job search works.
+  - [x] List supported filters.
+  - [x] Document the backend endpoint and query parameters.
+  - [x] Explain how to run relevant tests.
+  - [x] Record key architecture decisions.
+  - [x] Describe trade-offs and known limitations.
+  - [x] Explain what would be improved with more time.
+  - [x] Document and justify any added dependencies.
 
-- [ ] **Be transparent about LLM usage**
-  - [ ] Explain where and how an LLM was used.
-  - [ ] State what was personally reviewed, changed, and verified.
+- [x] **Be transparent about LLM usage**
+  - [x] Explain where and how an LLM was used.
+  - [x] State what was personally reviewed, changed, and verified.
 
 - [ ] **Maintain a clear Git history**
   - [ ] Create focused commits with descriptive messages.
@@ -97,11 +97,11 @@
   - [ ] Suggested commit: `docs: document search design and LLM usage`.
 
 - [ ] **Run final verification**
-  - [ ] Run backend tests with `mix test`.
-  - [ ] Run the frontend test suite.
-  - [ ] Run the frontend type-check command.
-  - [ ] Run the frontend lint command.
-  - [ ] Run the frontend production build.
+  - [x] Run backend tests with `mix test`.
+  - [x] Run the frontend test suite.
+  - [x] Run the frontend type-check command.
+  - [x] Run the frontend lint command.
+  - [x] Run the frontend production build.
   - [ ] Manually verify the complete search flow in the browser.
 
 ## P3 — Optional enhancements
@@ -113,18 +113,18 @@ Only start these after the required feature is complete and tested.
 - [ ] Debounce text search input.
 - [ ] Add employment type or category filters.
 - [ ] Add salary-range filtering.
-- [ ] Persist filters in the URL.
+- [x] Persist filters in the URL.
 - [ ] Display search-result counts.
 - [ ] Improve the mobile filter presentation.
 
 ## Recommended order of effort
 
-- [ ] 1. Complete the working backend search.
-- [ ] 2. Complete frontend integration.
-- [ ] 3. Refine React architecture and TypeScript safety.
-- [ ] 4. Improve UI/UX with `welcome-ui`.
-- [ ] 5. Cover behavior and edge cases with tests.
-- [ ] 6. Document decisions and LLM usage.
+- [x] 1. Complete the working backend search.
+- [x] 2. Complete frontend integration.
+- [x] 3. Refine React architecture and TypeScript safety.
+- [x] 4. Improve UI/UX with `welcome-ui`.
+- [x] 5. Cover behavior and edge cases with tests.
+- [x] 6. Document decisions and LLM usage.
 - [ ] 7. Review commit history and messages.
 - [ ] 8. Add optional enhancements only if time remains.
 
