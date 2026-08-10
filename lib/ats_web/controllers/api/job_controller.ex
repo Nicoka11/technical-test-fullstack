@@ -7,11 +7,11 @@ defmodule AtsWeb.Api.JobController do
   action_fallback AtsWeb.FallbackController
 
   @doc """
-  List all jobs.
+  List jobs, optionally filtered by title, location, and work mode.
   """
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def index(conn, _params) do
-    jobs = Jobs.list_jobs()
+  def index(conn, params) do
+    jobs = Jobs.list_jobs(params)
     render(conn, :index, jobs: jobs)
   end
 

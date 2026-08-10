@@ -47,17 +47,48 @@ defmodule Ats.Jobs do
   def profession_name(_job), do: ""
 
   @doc """
-  Returns the list of jobs.
+  Returns the list of jobs matching the provided filters.
+
+  Title and location filters use case-insensitive partial matching. Work mode
+  uses case-insensitive exact matching. Empty or missing filters are ignored.
 
   ## Examples
 
       iex> list_jobs()
       [%Job{}, ...]
 
+      iex> list_jobs(%{"title" => "engineer", "work_mode" => "remote"})
+      [%Job{}, ...]
+
   """
-  @spec list_jobs() :: [%Job{}]
-  def list_jobs do
-    Repo.all(Job) |> Repo.preload(:profession)
+  @spec list_jobs(map()) :: [%Job{}]
+  def list_jobs(filters \\ %{}) do
+    Job
+    |> filter_by_text(:title, filters["title"])
+    |> filter_by_text(:office, filters["location"])
+    |> filter_by_work_mode(filters["work_mode"])
+    |> Repo.all()
+    |> Repo.preload(:profession)
+  end
+
+  defp filter_by_text(query, _field, value) when not is_binary(value), do: query
+
+  defp filter_by_text(query, field, value) do
+    case String.trim(value) do
+      "" -> query
+      value -> where(query, [job], ilike(field(job, ^field), ^"%#{value}%"))
+    end
+  end
+
+  defp filter_by_work_mode(query, value) when not is_binary(value), do: query
+
+  defp filter_by_work_mode(query, value) do
+    value = value |> String.trim() |> String.downcase()
+
+    case Ecto.Enum.cast_value(Job, :work_mode, value) do
+      {:ok, work_mode} -> where(query, [job], job.work_mode == ^work_mode)
+      :error -> where(query, [job], false)
+    end
   end
 
   @doc """
