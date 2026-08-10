@@ -1,14 +1,22 @@
 // Type definitions for the ATS frontend
 
+export type WorkMode = "onsite" | "remote" | "hybrid";
+
+export interface JobSearchParams {
+  title?: string;
+  location?: string;
+  work_mode?: WorkMode;
+}
+
 export interface Job {
   id: number;
   title: string;
-  description: string;
+  description: string | null;
   contract_type: string;
   office: string;
   status: string;
-  work_mode: string;
-  profession_id: number;
+  work_mode: WorkMode;
+  profession_id: number | null;
   inserted_at: string;
   updated_at: string;
 }
