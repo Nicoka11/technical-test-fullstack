@@ -1,19 +1,19 @@
-import js from '@eslint/js'
-import { defineConfig, globalIgnores } from 'eslint/config'
-import importX from 'eslint-plugin-import-x'
-import jsxA11y from 'eslint-plugin-jsx-a11y'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import globals from 'globals'
-import tseslint from 'typescript-eslint'
+import js from "@eslint/js";
+import { defineConfig, globalIgnores } from "eslint/config";
+import importX from "eslint-plugin-import-x";
+import jsxA11y from "eslint-plugin-jsx-a11y";
+import react from "eslint-plugin-react";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
-const typescriptFiles = ['**/*.{ts,tsx}']
+const typescriptFiles = ["**/*.{ts,tsx}"];
 
 export default defineConfig([
-  globalIgnores(['dist', 'coverage']),
+  globalIgnores(["dist", "coverage"]),
   {
-    files: ['**/*.{js,mjs,cjs}'],
+    files: ["**/*.{js,mjs,cjs}"],
     extends: [js.configs.recommended],
     languageOptions: {
       globals: globals.node,
@@ -29,42 +29,42 @@ export default defineConfig([
     ],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.json', './tsconfig.node.json'],
+        project: ["./tsconfig.json", "./tsconfig.node.json"],
         tsconfigRootDir: import.meta.dirname,
       },
     },
     settings: {
-      'import-x/resolver': {
+      "import-x/resolver": {
         typescript: true,
       },
     },
     rules: {
-      'import-x/order': [
-        'error',
+      "import-x/order": [
+        "error",
         {
           alphabetize: {
-            order: 'asc',
+            order: "asc",
             caseInsensitive: true,
           },
           groups: [
-            'builtin',
-            'external',
-            'internal',
-            'parent',
-            'sibling',
-            'index',
-            'type',
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+            "type",
           ],
-          'newlines-between': 'always',
+          "newlines-between": "always",
         },
       ],
     },
   },
   {
-    files: ['src/**/*.{ts,tsx}'],
+    files: ["src/**/*.{ts,tsx}"],
     extends: [
       react.configs.flat.recommended,
-      react.configs.flat['jsx-runtime'],
+      react.configs.flat["jsx-runtime"],
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
       jsxA11y.flatConfigs.recommended,
@@ -74,27 +74,28 @@ export default defineConfig([
     },
     settings: {
       react: {
-        version: 'detect',
+        version: "detect",
       },
     },
     rules: {
-      'react/prop-types': 'off',
+      // Prop types are checked by TypeScript, so they are not needed here.
+      "react/prop-types": "off",
       // React Compiler is not enabled, so its library compatibility warning is noise.
-      'react-hooks/incompatible-library': 'off',
+      "react-hooks/incompatible-library": "off",
       // Loading and authentication effects intentionally begin with state transitions.
-      'react-hooks/set-state-in-effect': 'off',
+      "react-hooks/set-state-in-effect": "off",
     },
   },
   {
-    files: ['src/**/*.test.{ts,tsx}', 'src/test/**/*.{ts,tsx}'],
+    files: ["src/**/*.test.{ts,tsx}", "src/test/**/*.{ts,tsx}"],
     languageOptions: {
       globals: globals.vitest,
     },
   },
   {
-    files: ['*.config.ts'],
+    files: ["*.config.ts"],
     languageOptions: {
       globals: globals.node,
     },
   },
-])
+]);
