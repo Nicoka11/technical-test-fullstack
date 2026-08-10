@@ -78,6 +78,7 @@ export const JobSearchForm = ({
   const debouncedTitle = useDebounce(title, SEARCH_DEBOUNCE_MS);
   const debouncedLocation = useDebounce(location, SEARCH_DEBOUNCE_MS);
   const submittedFiltersKey = useRef(filtersKey(filters));
+  const isSyncingFromFilters = useRef(false);
 
   useEffect(() => {
     const nextValues: JobSearchFormValues = {
@@ -86,12 +87,19 @@ export const JobSearchForm = ({
       work_mode: filters.work_mode ?? "",
     };
     submittedFiltersKey.current = filtersKey(toSearchParams(nextValues));
+    isSyncingFromFilters.current = true;
     reset(nextValues);
   }, [filters.location, filters.title, filters.work_mode, reset]);
 
   useEffect(() => {
     // Wait for text inputs to settle before combining them with other filters.
     if (title !== debouncedTitle || location !== debouncedLocation) return;
+
+    // `reset` updates the form after this render; avoid resubmitting stale values.
+    if (isSyncingFromFilters.current) {
+      isSyncingFromFilters.current = false;
+      return;
+    }
 
     const nextFilters = toSearchParams({
       title: debouncedTitle,
