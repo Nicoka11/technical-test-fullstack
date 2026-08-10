@@ -85,6 +85,24 @@ describe("fetchJobs", () => {
     });
   });
 
+  it.each([
+    { ...job, contract_type: "UNKNOWN" },
+    { ...job, status: "unknown" },
+  ])("rejects jobs with values outside backend enums", async (invalidJob) => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn<typeof fetch>().mockResolvedValue(
+        new Response(JSON.stringify({ data: [invalidJob] }), {
+          status: 200,
+        }),
+      ),
+    );
+
+    await expect(fetchJobs({})).rejects.toThrow(
+      "Unable to load jobs. Please try again.",
+    );
+  });
+
   it("uses a stable error message when the network request fails", async () => {
     vi.stubGlobal(
       "fetch",

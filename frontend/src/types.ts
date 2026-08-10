@@ -1,5 +1,21 @@
 // Type definitions for the ATS frontend
 
+export type ContractType =
+  | "FULL_TIME"
+  | "PART_TIME"
+  | "TEMPORARY"
+  | "FREELANCE"
+  | "INTERNSHIP"
+  | "APPRENTICESHIP"
+  | "VIE";
+
+export type JobStatus =
+  | "draft"
+  | "published"
+  | "filled"
+  | "archived"
+  | "cancelled";
+
 export type WorkMode = "onsite" | "remote" | "hybrid";
 
 export interface JobSearchParams {
@@ -12,9 +28,9 @@ export interface Job {
   id: number;
   title: string;
   description: string | null;
-  contract_type: string;
+  contract_type: ContractType;
   office: string;
-  status: string | null;
+  status: JobStatus | null;
   work_mode: WorkMode | null;
   profession_id: number | null;
   inserted_at: string;

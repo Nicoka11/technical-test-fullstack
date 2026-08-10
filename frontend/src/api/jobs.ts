@@ -1,4 +1,10 @@
-import type { Job, JobSearchParams, WorkMode } from "../types";
+import type {
+  ContractType,
+  Job,
+  JobSearchParams,
+  JobStatus,
+  WorkMode,
+} from "../types";
 
 const JOBS_ERROR_MESSAGE = "Unable to load jobs. Please try again.";
 export const buildJobsSearchParams = (
@@ -18,6 +24,22 @@ export const buildJobsSearchParams = (
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null;
 
+const isContractType = (value: unknown): value is ContractType =>
+  value === "FULL_TIME" ||
+  value === "PART_TIME" ||
+  value === "TEMPORARY" ||
+  value === "FREELANCE" ||
+  value === "INTERNSHIP" ||
+  value === "APPRENTICESHIP" ||
+  value === "VIE";
+
+const isJobStatus = (value: unknown): value is JobStatus =>
+  value === "draft" ||
+  value === "published" ||
+  value === "filled" ||
+  value === "archived" ||
+  value === "cancelled";
+
 const isWorkMode = (value: unknown): value is WorkMode =>
   value === "onsite" || value === "remote" || value === "hybrid";
 
@@ -28,9 +50,9 @@ const isJob = (value: unknown): value is Job => {
     typeof value.id === "number" &&
     typeof value.title === "string" &&
     (typeof value.description === "string" || value.description === null) &&
-    typeof value.contract_type === "string" &&
+    isContractType(value.contract_type) &&
     typeof value.office === "string" &&
-    (typeof value.status === "string" || value.status === null) &&
+    (isJobStatus(value.status) || value.status === null) &&
     (isWorkMode(value.work_mode) || value.work_mode === null) &&
     (typeof value.profession_id === "number" || value.profession_id === null) &&
     typeof value.inserted_at === "string" &&
