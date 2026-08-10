@@ -117,7 +117,7 @@ describe("JobResults", () => {
       "/jobs/1/apply",
     );
     expect(screen.getByText(job.description ?? "")).toBeVisible();
-    expect(screen.getByText("FULL_TIME")).toBeVisible();
+    expect(screen.getByText("Full Time")).toBeVisible();
     expect(screen.getByText("Paris")).toBeVisible();
     expect(screen.getByText("published")).toBeVisible();
   });
