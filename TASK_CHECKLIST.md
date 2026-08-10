@@ -35,9 +35,9 @@
   - [x] Keep components focused and reusable.
   - [x] Avoid duplicating job-list rendering logic.
 
-- [x] **Handle hooks and state correctly**
+- [ ] **Handle hooks and state correctly**
   - [x] Keep filter state predictable.
-  - [x] Avoid unnecessary effects and duplicate requests.
+  - [ ] Avoid unnecessary effects and duplicate requests.
   - [x] Prevent stale responses from replacing newer search results.
   - [x] Consider URL query parameters to make searches shareable and restorable.
 

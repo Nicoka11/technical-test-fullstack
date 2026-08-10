@@ -112,17 +112,18 @@ Run frontend checks from `frontend/`:
 
 ```bash
 yarn test --run
+yarn tsc --noEmit
 yarn lint
 yarn build
 ```
 
 ### Trade-offs and possible follow-ups
 
-Search is submit-based rather than debounced, which avoids unnecessary requests and keeps the behavior explicit. Pagination, sorting, visible result counts, and additional filters were intentionally left out to prioritize the required flow. With more time, pagination would be the first addition and would preserve the current URL filters.
+Search is submit-based rather than debounced, which avoids unnecessary requests and keeps the behavior explicit. In development, React Strict Mode starts effects twice and aborts the first jobs request; stale responses are ignored, while production performs the normal single request. Pagination, sorting, visible result counts, and additional filters were intentionally left out to prioritize the required flow. With more time, pagination would be the first addition and would preserve the current URL filters.
 
 ### LLM usage
 
-An LLM was used to inspect the repository, draft the implementation plan, assist with the typed API layer, UI integration, tests, documentation, and read-only code-review passes. The work was delivered and reviewed incrementally; the search form was subsequently refactored to React Hook Form. Automated test, lint, and build commands are reported with the submission, while any manual browser checks are documented separately.
+An LLM was used to inspect the repository, draft the implementation plan, assist with the typed API layer, UI integration, tests, documentation, and read-only code-review passes. The author personally reviewed the incremental code checkpoints and refactored the search form to React Hook Form. Backend tests, frontend tests, TypeScript checking, linting, and the production build were run and reviewed; manual browser checks are documented separately when performed.
 
 ## Evaluation Criteria
 
