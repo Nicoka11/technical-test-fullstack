@@ -6,16 +6,10 @@ import { Field } from "welcome-ui/Field";
 import { InputText } from "welcome-ui/InputText";
 import { Select } from "welcome-ui/Select";
 
+import { SEARCH_WORK_MODE_OPTIONS } from "../../api/job-options";
 import { useDebounce } from "../../hooks/useDebounce";
 
 import type { JobSearchParams, WorkMode } from "../../types";
-
-const WORK_MODE_OPTIONS = [
-  { label: "All work modes", value: "" },
-  { label: "On-site", value: "onsite" },
-  { label: "Remote", value: "remote" },
-  { label: "Hybrid", value: "hybrid" },
-];
 
 interface JobSearchFormProps {
   filters: JobSearchParams;
@@ -140,7 +134,7 @@ export const JobSearchForm = ({
                   <Select
                     aria-label="Work mode"
                     name={field.name}
-                    options={WORK_MODE_OPTIONS}
+                    options={SEARCH_WORK_MODE_OPTIONS}
                     value={field.value}
                     onChange={(value) => {
                       field.onChange(isWorkMode(value) ? value : "");

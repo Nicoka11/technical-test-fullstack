@@ -6,7 +6,7 @@ import { Loader } from "welcome-ui/Loader";
 import { Tag } from "welcome-ui/Tag";
 import { Text } from "welcome-ui/Text";
 
-import { getContractTypeLabel } from "./utils";
+import { CONTRACT_TYPE_OPTIONS, getLabelValue } from "../../api/job-options";
 
 import type { JobsStatus } from "../../hooks/useJobs";
 import type { Job } from "../../types";
@@ -122,7 +122,10 @@ export const JobResults = ({
                     )}
                     <div className="mt-sm flex flex-wrap gap-xs">
                       <Tag size="md" variant="blue">
-                        {getContractTypeLabel(job.contract_type)}
+                        {getLabelValue(
+                          CONTRACT_TYPE_OPTIONS,
+                          job.contract_type,
+                        )}
                       </Tag>
                       <Tag size="md" variant="light-blue">
                         {job.office}

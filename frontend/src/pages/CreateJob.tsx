@@ -10,29 +10,11 @@ import { Select } from "welcome-ui/Select";
 import { Text } from "welcome-ui/Text";
 import { Textarea } from "welcome-ui/Textarea";
 
-const CONTRACT_TYPE_OPTIONS = [
-  { label: "Full Time", value: "FULL_TIME" },
-  { label: "Part Time", value: "PART_TIME" },
-  { label: "Temporary", value: "TEMPORARY" },
-  { label: "Freelance", value: "FREELANCE" },
-  { label: "Internship", value: "INTERNSHIP" },
-  { label: "Apprenticeship", value: "APPRENTICESHIP" },
-  { label: "VIE", value: "VIE" },
-];
-
-const STATUS_OPTIONS = [
-  { label: "Draft", value: "draft" },
-  { label: "Published", value: "published" },
-  { label: "Filled", value: "filled" },
-  { label: "Archived", value: "archived" },
-  { label: "Cancelled", value: "cancelled" },
-];
-
-const WORK_MODE_OPTIONS = [
-  { label: "On-site", value: "onsite" },
-  { label: "Remote", value: "remote" },
-  { label: "Hybrid", value: "hybrid" },
-];
+import {
+  CONTRACT_TYPE_OPTIONS,
+  STATUS_OPTIONS,
+  WORK_MODE_OPTIONS,
+} from "../api/job-options";
 
 export const CreateJob = () => {
   const navigate = useNavigate();
