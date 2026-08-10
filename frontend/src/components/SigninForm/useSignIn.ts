@@ -1,7 +1,8 @@
+import Cookies from "js-cookie";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { LoginParams, login } from "../../api/login";
-import Cookies from "js-cookie";
 
 export const useSignIn = () => {
   const [loading, setLoading] = useState(false);
@@ -15,9 +16,9 @@ export const useSignIn = () => {
       try {
         const token = await login(params);
         Cookies.set("user-token", token);
-        navigate("/", { replace: true });
-      } catch (err: any) {
-        setError(err.message || "Unknown error");
+        void navigate("/", { replace: true });
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Unknown error");
         throw err;
       } finally {
         setLoading(false);

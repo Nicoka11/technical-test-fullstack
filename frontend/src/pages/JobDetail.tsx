@@ -1,10 +1,10 @@
-import { useParams, Link } from "react-router-dom";
-import { Text } from "welcome-ui/Text";
-import { Tag } from "welcome-ui/Tag";
-import { Card } from "welcome-ui/Card";
-import { Button } from "welcome-ui/Button";
-import { Link as WUILink } from "welcome-ui/Link";
 import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { Button } from "welcome-ui/Button";
+import { Card } from "welcome-ui/Card";
+import { Link as WUILink } from "welcome-ui/Link";
+import { Tag } from "welcome-ui/Tag";
+import { Text } from "welcome-ui/Text";
 
 interface Job {
   id: number;
@@ -23,14 +23,14 @@ export const JobDetail = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`/api/jobs/${id}`)
+    void fetch(`/api/jobs/${id}`)
       .then((res) => res.json())
       .then((response: { data: Job }) => {
         setJob(response.data);
         setLoading(false);
       })
-      .catch((err) => {
-        setError(err.message);
+      .catch((err: unknown) => {
+        setError(err instanceof Error ? err.message : "Unknown error");
         setLoading(false);
       });
   }, [id]);

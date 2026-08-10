@@ -1,9 +1,9 @@
-import { InputText } from "welcome-ui/InputText";
-import { PasswordInput } from "welcome-ui/PasswordInput";
+import { useForm } from "react-hook-form";
 import { Button } from "welcome-ui/Button";
 import { Field } from "welcome-ui/Field";
 import { Hint } from "welcome-ui/Hint";
-import { useForm } from "react-hook-form";
+import { InputText } from "welcome-ui/InputText";
+import { PasswordInput } from "welcome-ui/PasswordInput";
 
 export type SignInFormValues = { email: string; password: string };
 
@@ -32,7 +32,11 @@ export const SignInForm = ({
   });
 
   return (
-    <form data-testid="signin-form" onSubmit={submit} noValidate>
+    <form
+      data-testid="signin-form"
+      onSubmit={(event) => void submit(event)}
+      noValidate
+    >
       <Field error={errors.email?.message} className="mb-md" label="Email">
         <InputText
           type="email"

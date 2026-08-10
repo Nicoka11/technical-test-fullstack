@@ -1,14 +1,14 @@
+import { useState, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "welcome-ui/Button";
-import { Text } from "welcome-ui/Text";
-import { InputText } from "welcome-ui/InputText";
-import { Textarea } from "welcome-ui/Textarea";
-import { Select } from "welcome-ui/Select";
-import { Field } from "welcome-ui/Field";
 import { Card } from "welcome-ui/Card";
+import { Field } from "welcome-ui/Field";
 import { Hint } from "welcome-ui/Hint";
+import { InputText } from "welcome-ui/InputText";
 import { Link as WUILink } from "welcome-ui/Link";
-import { useState, FormEvent } from "react";
+import { Select } from "welcome-ui/Select";
+import { Text } from "welcome-ui/Text";
+import { Textarea } from "welcome-ui/Textarea";
 
 const CONTRACT_TYPE_OPTIONS = [
   { label: "Full Time", value: "FULL_TIME" },
@@ -45,36 +45,39 @@ export const CreateJob = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
     setLoading(true);
     setError(null);
 
-    fetch("/api/jobs", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        job: {
-          title,
-          description,
-          contract_type: contractType,
-          office,
-          status,
-          work_mode: workMode,
-          profession_id: 1,
+    try {
+      const response = await fetch("/api/jobs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      }),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        navigate("/");
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
+        body: JSON.stringify({
+          job: {
+            title,
+            description,
+            contract_type: contractType,
+            office,
+            status,
+            work_mode: workMode,
+            profession_id: 1,
+          },
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error("Create job failed");
+      }
+
+      void navigate("/");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Unknown error");
+      setLoading(false);
+    }
   };
 
   return (
@@ -100,7 +103,7 @@ export const CreateJob = () => {
             </Hint>
           )}
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={(event) => void handleSubmit(event)}>
             <Field label="Title" required className="mb-md">
               <InputText
                 value={title}

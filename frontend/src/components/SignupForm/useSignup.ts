@@ -1,7 +1,8 @@
+import Cookies from "js-cookie";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { RegisterParams, register } from "../../api/register";
-import Cookies from "js-cookie";
 
 export type SignupParams = RegisterParams;
 
@@ -20,9 +21,9 @@ export const useSignup = () => {
           password: params.password,
         });
         Cookies.set("user-token", token);
-        navigate("/", { replace: true });
-      } catch (err: any) {
-        setError(err.message || "Unknown error");
+        void navigate("/", { replace: true });
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Unknown error");
         throw err;
       } finally {
         setLoading(false);

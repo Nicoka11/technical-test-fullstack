@@ -1,7 +1,8 @@
+import { Link, useParams } from "react-router-dom";
+import { Card } from "welcome-ui/Card";
 import { Link as WUILink } from "welcome-ui/Link";
 import { Text } from "welcome-ui/Text";
-import { Card } from "welcome-ui/Card";
-import { Link, useParams } from "react-router-dom";
+
 import { ApplyForm, ApplyFormValues } from "../components/ApplyForm";
 import { useApply } from "../components/ApplyForm/useApply";
 

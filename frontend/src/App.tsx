@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { JobList } from "./pages/JobList";
-import { JobDetail } from "./pages/JobDetail";
-import { CreateJob } from "./pages/CreateJob";
-import { SignIn } from "./pages/SignIn";
-import { SignUp } from "./pages/SignUp";
-import { SignOut } from "./pages/SignOut";
+
 import { Apply } from "./pages/Apply";
+import { CreateJob } from "./pages/CreateJob";
+import { JobDetail } from "./pages/JobDetail";
+import { JobList } from "./pages/JobList";
+import { SignIn } from "./pages/SignIn";
+import { SignOut } from "./pages/SignOut";
+import { SignUp } from "./pages/SignUp";
 
 import "./index.css";
 

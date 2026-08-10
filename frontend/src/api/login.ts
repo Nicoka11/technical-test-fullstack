@@ -10,15 +10,24 @@ export const login = async ({
     body: JSON.stringify({ user: { email, password } }),
   });
 
-  const body = await res.json().catch(() => ({}));
+  const body: unknown = await res.json().catch(() => null);
 
   if (!res.ok) {
     throw new Error("Sign in failed");
   }
 
-  const token = body?.data?.token;
+  if (
+    typeof body !== "object" ||
+    body === null ||
+    !("data" in body) ||
+    typeof body.data !== "object" ||
+    body.data === null ||
+    !("token" in body.data) ||
+    typeof body.data.token !== "string" ||
+    body.data.token.length === 0
+  ) {
+    throw new Error("No token returned from server");
+  }
 
-  if (!token) throw new Error("No token returned from server");
-
-  return token;
+  return body.data.token;
 };

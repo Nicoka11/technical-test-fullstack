@@ -1,7 +1,9 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Job, JobSearchParams } from "../types";
+
 import { useJobs } from "./useJobs";
+
+import type { Job, JobSearchParams } from "../types";
 
 const remoteJob: Job = {
   id: 1,
@@ -83,7 +85,13 @@ describe("useJobs", () => {
       const signal = init?.signal;
       if (signal) signals.push(signal);
 
-      if (String(url).includes("title=Frontend")) return firstRequest;
+      const requestedUrl =
+        typeof url === "string"
+          ? url
+          : url instanceof URL
+            ? url.href
+            : url.url;
+      if (requestedUrl.includes("title=Frontend")) return firstRequest;
 
       return Promise.resolve(jobsResponse([onsiteJob]));
     });

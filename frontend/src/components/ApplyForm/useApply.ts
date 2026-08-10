@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { ApplyParams, apply } from "../../api/apply";
 
 export const useApply = () => {
@@ -13,9 +14,9 @@ export const useApply = () => {
       setLoading(true);
       try {
         await apply(jobId, params);
-        navigate("/", { replace: true });
-      } catch (err: any) {
-        setError("Unknown error");
+        void navigate("/", { replace: true });
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Unknown error");
         throw err;
       } finally {
         setLoading(false);

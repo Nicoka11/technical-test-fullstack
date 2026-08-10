@@ -1,8 +1,8 @@
-import { InputText } from "welcome-ui/InputText";
+import { useForm } from "react-hook-form";
 import { Button } from "welcome-ui/Button";
 import { Field } from "welcome-ui/Field";
-import { useForm } from "react-hook-form";
 import { Hint } from "welcome-ui/Hint";
+import { InputText } from "welcome-ui/InputText";
 
 export type ApplyFormValues = {
   full_name: string;
@@ -43,7 +43,11 @@ export const ApplyForm = ({
   });
 
   return (
-    <form data-testid="apply-form" onSubmit={submit} noValidate>
+    <form
+      data-testid="apply-form"
+      onSubmit={(event) => void submit(event)}
+      noValidate
+    >
       <Field
         error={errors.full_name?.message}
         className="mb-md"

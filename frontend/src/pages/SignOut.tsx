@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { logout } from "../api/logout";
 
 export const SignOut = () => {
@@ -9,11 +10,13 @@ export const SignOut = () => {
     const handleSignOut = async () => {
       try {
         await logout();
-      } catch (e) {}
-      navigate("/signin", { replace: true });
+      } catch {
+        // Logout is best-effort; always return the user to the sign-in page.
+      }
+      void navigate("/signin", { replace: true });
     };
 
-    handleSignOut();
+    void handleSignOut();
   }, [navigate]);
 
   return <div>Signing out...</div>;

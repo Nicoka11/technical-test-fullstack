@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
+
 import { fetchJobs } from "../api/jobs";
+
 import type { Job, JobSearchParams } from "../types";
 
 export type JobsStatus = "loading" | "success" | "error";

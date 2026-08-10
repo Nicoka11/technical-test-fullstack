@@ -1,7 +1,8 @@
+import { Link } from "react-router-dom";
+import { Card } from "welcome-ui/Card";
 import { Link as WUILink } from "welcome-ui/Link";
 import { Text } from "welcome-ui/Text";
-import { Card } from "welcome-ui/Card";
-import { Link } from "react-router-dom";
+
 import { SignUpForm, SignUpFormValues } from "../components/SignupForm";
 import { useSignup } from "../components/SignupForm/useSignup";
 

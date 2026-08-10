@@ -1,5 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+
 import { SignUpForm } from ".";
 
 const onSubmit = vi.fn();

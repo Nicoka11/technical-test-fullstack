@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Job } from "../types";
+
 import { buildJobsSearchParams, fetchJobs } from "./jobs";
+
+import type { Job } from "../types";
 
 const job: Job = {
   id: 1,

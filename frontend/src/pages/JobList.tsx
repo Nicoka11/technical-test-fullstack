@@ -1,11 +1,12 @@
+import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "welcome-ui/Button";
-import { Text } from "welcome-ui/Text";
 import { Card } from "welcome-ui/Card";
-import { Tag } from "welcome-ui/Tag";
 import { Loader } from "welcome-ui/Loader";
-import Cookies from "js-cookie";
+import { Tag } from "welcome-ui/Tag";
+import { Text } from "welcome-ui/Text";
+
 import { logout } from "../api/logout";
 
 interface Job {
@@ -17,12 +18,27 @@ interface Job {
   status: string;
 }
 
+interface User {
+  id: string | number;
+  email: string;
+}
+
+const isUser = (value: unknown): value is User =>
+  typeof value === "object" &&
+  value !== null &&
+  "id" in value &&
+  (typeof value.id === "string" || typeof value.id === "number") &&
+  "email" in value &&
+  typeof value.email === "string";
+
 export const JobList = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [hasBearerToken, setHasBearerToken] = useState<boolean>(false);
-  const [user, setUser] = useState<{ id: string; email: string } | null>(null);
+  const [hasBearerToken, setHasBearerToken] = useState(() =>
+    Boolean(Cookies.get("user-token")),
+  );
+  const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,8 +48,8 @@ export const JobList = () => {
         setJobs(response.data);
         setLoading(false);
       })
-      .catch((err) => {
-        setError(err.message);
+      .catch((err: unknown) => {
+        setError(err instanceof Error ? err.message : "Unknown error");
         setLoading(false);
       });
   }, []);
@@ -41,10 +57,9 @@ export const JobList = () => {
   useEffect(() => {
     const csrfToken = Cookies.get("technical-test-csrf-token");
     const bearerToken = Cookies.get("user-token");
-    setHasBearerToken(Boolean(bearerToken));
 
     if (bearerToken) {
-      (async () => {
+      void (async () => {
         try {
           const res = await fetch("/api/me", {
             credentials: "include",
@@ -56,17 +71,32 @@ export const JobList = () => {
           });
 
           if (res.ok) {
-            const body = await res.json().catch(() => ({}));
-            setUser(body?.data ?? null);
+            const body: unknown = await res.json().catch(() => null);
+            const userData =
+              typeof body === "object" && body !== null && "data" in body
+                ? body.data
+                : null;
+            setUser(isUser(userData) ? userData : null);
           } else {
             setUser(null);
           }
-        } catch (e) {
+        } catch {
           setUser(null);
         }
       })();
     }
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch {
+      // Clear local auth state even when the best-effort API request fails.
+    }
+    setUser(null);
+    setHasBearerToken(false);
+    void navigate("/signin");
+  };
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text color="red">Error: {error}</Text>;
@@ -84,14 +114,7 @@ export const JobList = () => {
                 <Button
                   size="sm"
                   variant="tertiary"
-                  onClick={async () => {
-                    try {
-                      await logout();
-                    } catch (e) {}
-                    setUser(null);
-                    setHasBearerToken(false);
-                    navigate("/signin");
-                  }}
+                  onClick={() => void handleLogout()}
                 >
                   Logout
                 </Button>
