@@ -172,7 +172,6 @@ describe("JobList search integration", () => {
     await user.type(screen.getByRole("textbox", { name: "Location" }), "Paris");
     await user.click(screen.getByRole("button", { name: "open menu" }));
     await user.click(screen.getByRole("option", { name: "Remote" }));
-    await user.click(screen.getByRole("button", { name: "Search jobs" }));
 
     await waitFor(() =>
       expect(screen.getByTestId("location-search")).toHaveTextContent(
