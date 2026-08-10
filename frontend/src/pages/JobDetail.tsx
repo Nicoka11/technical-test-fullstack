@@ -5,6 +5,7 @@ import { Card } from "welcome-ui/Card";
 import { Link as WUILink } from "welcome-ui/Link";
 import { Tag } from "welcome-ui/Tag";
 import { Text } from "welcome-ui/Text";
+import { CONTRACT_TYPE_OPTIONS, getLabelValue } from "../api/job-options";
 
 interface Job {
   id: number;
@@ -55,7 +56,7 @@ export const JobDetail = () => {
           <Text variant="heading-xl">{job.title}</Text>
           <div className="flex flex-wrap gap-xs mt-sm">
             <Tag size="md" variant={"blue"}>
-              {job.contract_type}
+              {getLabelValue(CONTRACT_TYPE_OPTIONS, job.contract_type)}
             </Tag>
             <Tag size="md" variant={"green"}>
               {job.status}
