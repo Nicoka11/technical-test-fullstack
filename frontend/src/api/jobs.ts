@@ -30,8 +30,8 @@ const isJob = (value: unknown): value is Job => {
     (typeof value.description === "string" || value.description === null) &&
     typeof value.contract_type === "string" &&
     typeof value.office === "string" &&
-    typeof value.status === "string" &&
-    isWorkMode(value.work_mode) &&
+    (typeof value.status === "string" || value.status === null) &&
+    (isWorkMode(value.work_mode) || value.work_mode === null) &&
     (typeof value.profession_id === "number" || value.profession_id === null) &&
     typeof value.inserted_at === "string" &&
     typeof value.updated_at === "string"

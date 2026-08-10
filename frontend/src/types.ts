@@ -14,8 +14,8 @@ export interface Job {
   description: string | null;
   contract_type: string;
   office: string;
-  status: string;
-  work_mode: WorkMode;
+  status: string | null;
+  work_mode: WorkMode | null;
   profession_id: number | null;
   inserted_at: string;
   updated_at: string;

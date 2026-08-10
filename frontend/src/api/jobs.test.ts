@@ -58,6 +58,20 @@ describe("fetchJobs", () => {
     );
   });
 
+  it("accepts nullable optional fields returned by the backend", async () => {
+    const nullableJob = { ...job, status: null, work_mode: null };
+    vi.stubGlobal(
+      "fetch",
+      vi.fn<typeof fetch>().mockResolvedValue(
+        new Response(JSON.stringify({ data: [nullableJob] }), {
+          status: 200,
+        }),
+      ),
+    );
+
+    await expect(fetchJobs({})).resolves.toEqual([nullableJob]);
+  });
+
   it("requests all jobs without a trailing query string when filters are empty", async () => {
     const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
       new Response(JSON.stringify({ data: [] }), { status: 200 }),
