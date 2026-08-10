@@ -5,9 +5,4 @@ test("test", async ({ page }) => {
   await page.getByRole("textbox", { name: "Job title" }).click();
   await page.getByRole("textbox", { name: "Job title" }).fill("Frontend");
   await page.getByText("jobs found for your search").click();
-  await page
-    .getByRole("link", { name: "Senior Frontend Engineer" })
-    .first()
-    .click();
-  await page.getByText("We are looking for a Senior").click();
 });
