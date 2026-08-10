@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
@@ -30,7 +30,7 @@ describe("JobSearchForm", () => {
     ).toHaveTextContent("Remote");
   });
 
-  it("submits normalized title, location, and work mode values", async () => {
+  it("applies normalized title after the search debounce", async () => {
     const user = userEvent.setup();
     const onSubmit = vi.fn();
     render(
@@ -46,22 +46,39 @@ describe("JobSearchForm", () => {
       screen.getByRole("textbox", { name: "Job title" }),
       "  Frontend  ",
     );
+
+    expect(onSubmit).not.toHaveBeenCalled();
+    await waitFor(
+      () => expect(onSubmit).toHaveBeenCalledWith({ title: "Frontend" }),
+      { timeout: 500 },
+    );
+  });
+
+  it("applies normalized location after the search debounce", async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn();
+    render(
+      <JobSearchForm
+        filters={{}}
+        loading={false}
+        onClear={vi.fn()}
+        onSubmit={onSubmit}
+      />,
+    );
+
     await user.type(
       screen.getByRole("textbox", { name: "Location" }),
       "  Paris  ",
     );
-    await user.click(screen.getByRole("button", { name: "open menu" }));
-    await user.click(screen.getByRole("option", { name: "Hybrid" }));
-    await user.click(screen.getByRole("button", { name: "Search jobs" }));
 
-    expect(onSubmit).toHaveBeenCalledWith({
-      title: "Frontend",
-      location: "Paris",
-      work_mode: "hybrid",
-    });
+    expect(onSubmit).not.toHaveBeenCalled();
+    await waitFor(
+      () => expect(onSubmit).toHaveBeenCalledWith({ location: "Paris" }),
+      { timeout: 500 },
+    );
   });
 
-  it("removes work mode when all modes is selected", async () => {
+  it("applies work mode changes immediately", async () => {
     const user = userEvent.setup();
     const onSubmit = vi.fn();
     render(
@@ -75,7 +92,6 @@ describe("JobSearchForm", () => {
 
     await user.click(screen.getByRole("button", { name: "open menu" }));
     await user.click(screen.getByRole("option", { name: "All work modes" }));
-    await user.click(screen.getByRole("button", { name: "Search jobs" }));
 
     expect(onSubmit).toHaveBeenCalledWith({});
     expect(
@@ -111,16 +127,15 @@ describe("JobSearchForm", () => {
     ).toHaveTextContent("On-site");
   });
 
-  it("shows clear only for applied filters and disables duplicate submission", async () => {
+  it("shows clear only for applied filters", async () => {
     const user = userEvent.setup();
     const onClear = vi.fn();
-    const onSubmit = vi.fn();
     const { rerender } = render(
       <JobSearchForm
         filters={{}}
         loading={false}
         onClear={onClear}
-        onSubmit={onSubmit}
+        onSubmit={vi.fn()}
       />,
     );
 
@@ -136,14 +151,14 @@ describe("JobSearchForm", () => {
         filters={{ title: "Frontend" }}
         loading
         onClear={onClear}
-        onSubmit={onSubmit}
+        onSubmit={vi.fn()}
       />,
     );
 
-    const searchButton = screen.getByRole("button", { name: "Search jobs" });
-    expect(searchButton).toHaveAttribute("aria-disabled", "true");
-    await user.click(searchButton);
-    expect(onSubmit).not.toHaveBeenCalled();
+    expect(screen.getByRole("form", { name: "Search jobs" })).toHaveAttribute(
+      "aria-busy",
+      "true",
+    );
     await user.click(screen.getByRole("button", { name: "Clear filters" }));
     expect(onClear).toHaveBeenCalledOnce();
   });
